@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_talk_example/bottom_nav_screen.dart';
+import 'package:flutter_talk_example/home_screen.dart';
+import 'package:flutter_talk_example/set_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -14,7 +17,15 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Bottom Navigation App',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const BottomNavScreen(),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => SetCubit()),
+          BlocProvider(
+            create: (context) => HomeCubit(setCubit: context.read<SetCubit>()),
+          ),
+        ],
+        child: const BottomNavScreen(),
+      ),
     );
   }
 }
