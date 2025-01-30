@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_talk_example/set_screen.dart';
+import 'package:flutter_talk_example/repository.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -24,19 +24,19 @@ class HomeScreen extends StatelessWidget {
 }
 
 class HomeCubit extends Cubit<int> {
-  HomeCubit({required this.setCubit}) : super(0) {
+  HomeCubit(this.repository) : super(0) {
     defineListener();
   }
 
-  final SetCubit setCubit;
+  final Repository repository;
   late StreamSubscription<int> setSubscription;
 
   void defineListener() {
-    setSubscription = setCubit.streamController.stream.listen((_) {
-      increment();
-      // You could also look into the event and directly emit that value
-    });
+    setSubscription = repository.streamController.stream.listen(
+      (value) {
+        emit(value);
+        // You could also look into the event and directly emit that value
+      },
+    );
   }
-
-  void increment() => emit(state + 1);
 }

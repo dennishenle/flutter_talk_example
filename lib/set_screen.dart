@@ -1,7 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_talk_example/repository.dart';
 
 class SetScreen extends StatelessWidget {
   const SetScreen({super.key});
@@ -35,14 +34,13 @@ class SetScreen extends StatelessWidget {
 }
 
 class SetCubit extends Cubit<int> {
-  SetCubit() : super(0);
+  SetCubit(this.repository) : super(0);
 
-  final StreamController<int> streamController =
-      StreamController<int>.broadcast();
+  final Repository repository;
 
   void increment() {
     final newState = state + 1;
-    streamController.add(newState);
+    repository.streamController.add(newState);
     emit(newState);
   }
 }
