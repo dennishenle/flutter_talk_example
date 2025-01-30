@@ -39,4 +39,10 @@ class HomeCubit extends Cubit<int> {
       },
     );
   }
+
+  @override
+  Future<void> close() {
+    setSubscription.cancel();
+    return super.close();
+  }
 }
